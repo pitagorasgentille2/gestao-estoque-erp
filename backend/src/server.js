@@ -25,6 +25,18 @@ app.post('/products', (req, res) => {
 
     res.status(201).json(product);
 });
+// BUSCAR PRODUTO POR ID
+app.get('/products/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+
+    const product = products.find(p => p.id === id);
+
+    if (!product) {
+        return res.status(404).json({ message: 'Produto não encontrado' });
+    }
+
+    res.json(product);
+});
 
 app.get('/', (req, res) => {
     res.send('API do ERP funcionando 🚀');
