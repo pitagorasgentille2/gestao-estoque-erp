@@ -84,6 +84,26 @@ app.put('/products/:id', (req, res) => {
         }
     );
 });
+// DELETAR PRODUTO
+app.delete('/products/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+
+    db.run(
+        'DELETE FROM products WHERE id = ?',
+        [id],
+        function (error) {
+            if (error) {
+                return res.status(500).json({ message: 'Erro ao deletar produto' });
+            }
+
+            if (this.changes === 0) {
+                return res.status(404).json({ message: 'Produto não encontrado' });
+            }
+
+            res.json({ message: 'Produto deletado com sucesso' });
+        }
+    );
+});
 
 app.listen(3001, () => {
     console.log('Servidor rodando na porta 3001');
