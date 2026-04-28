@@ -23,11 +23,11 @@ app.get('/products', (req, res) => {
 
 // CRIAR PRODUTO
 app.post('/products', (req, res) => {
-    const { name, price } = req.body;
+    const { name, price, quantity, minimum_stock } = req.body;
 
     db.run(
-        'INSERT INTO products (name, price) VALUES (?, ?)',
-        [name, price],
+        'INSERT INTO products (name, price, quantity, minimum_stock) VALUES (?, ?, ?, ?)',
+        [name, price, quantity, minimum_stock],
         function (error) {
             if (error) {
                 return res.status(500).json({ message: 'Erro ao criar produto' });
@@ -36,7 +36,9 @@ app.post('/products', (req, res) => {
             res.status(201).json({
                 id: this.lastID,
                 name,
-                price
+                price,
+                quantity,
+                minimum_stock
             });
         }
     );
@@ -62,11 +64,11 @@ app.get('/products/:id', (req, res) => {
 // ATUALIZAR PRODUTO
 app.put('/products/:id', (req, res) => {
     const id = parseInt(req.params.id);
-    const { name, price } = req.body;
+    const { name, price, quantity, minimum_stock } = req.body;
 
     db.run(
-        'UPDATE products SET name = ?, price = ? WHERE id = ?',
-        [name, price, id],
+        'UPDATE products SET name = ?, price = ?, quantity = ?, minimum_stock = ? WHERE id = ?',
+        [name, price, quantity, minimum_stock, id],
         function (error) {
             if (error) {
                 return res.status(500).json({ message: 'Erro ao atualizar produto' });
@@ -79,7 +81,9 @@ app.put('/products/:id', (req, res) => {
             res.json({
                 id,
                 name,
-                price
+                price,
+                quantity,
+                minimum_stock
             });
         }
     );

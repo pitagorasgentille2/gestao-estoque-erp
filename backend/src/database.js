@@ -13,7 +13,9 @@ db.serialize(() => {
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            price REAL NOT NULL
+            price REAL NOT NULL,
+            quantity INTEGER NOT NULL DEFAULT 0,
+            minimum_stock INTEGER NOT NULL DEFAULT 0
         )
     `);
 });
